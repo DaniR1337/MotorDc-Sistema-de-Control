@@ -7,7 +7,7 @@ clc; clear variables, clear figures;
 
 %% Extracción de las mediciones
 M = readmatrix("delta_85a115.csv");
-[t, u, yr] = deal(M(:, 1), M(:, 2)*100/255, M(:, 3));
+[t, u, yr] = deal(M(:, 1), M(:, 2), M(:, 3));
 
 %% Gráficas iniciales
 % Figura con respuesta del sistema
@@ -62,9 +62,9 @@ plot(tz, y, 'b', 'linewidth', 2)
 hold on
 [yz, tz] = lsim(P, entrada, tz);
 plot(tz, yz+yi, 'r--', 'linewidth', 2)
-legend('Real', 'Alfaro 123c')
+plot(t, u, 'm', 'linewidth', 2)
+legend('Real', 'Alfaro (123c)', 'Entrada')
 grid on
-
 % Índice integral de error absoluto
 e = abs(y.'-(yz+yi));
 JIAE1 = trapz(tz(3001:6001), e(3001:6001)); % Índice de error de 3s a 6s
@@ -90,13 +90,14 @@ LHo = bHo*t3 + (1-b)*t4;
 P2 = K/(tauHo*s+1);
 tz = (0:0.001:10);
 
-% Se grafica la respuesta real con el modelo 123c de Alfaro
+% Se grafica la respuesta real con el modelo Ho
 figure(4)
 plot(tz, y, 'b', 'linewidth', 2)
 hold on
 [yz2, tz] = lsim(P2, entrada, tz);
 plot(tz, yz2+yi, 'r--', 'linewidth', 2)
-legend('Real', 'Ho')
+plot(t, u, 'm', 'linewidth', 2)
+legend('Real', 'Ho', 'Entrada')
 grid on
 
 % Índice integral de error absoluto
