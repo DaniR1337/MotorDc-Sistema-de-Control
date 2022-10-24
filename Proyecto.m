@@ -64,4 +64,4 @@ grid on
 
 % Índice integral de error absoluto
 e = abs(y.'-(yz+yi));
-JIAE = trapz(tz(1:3001), e(1:6001));
+JIAE = trapz(tz(3001:6001), e(3001:6001)); % Índice de error de 3s a 6s
