@@ -68,6 +68,7 @@ grid on
 % Índice integral de error absoluto
 e = abs(y.'-(yz+yi));
 JIAE1 = trapz(tz(2001:6001), e(2001:6001)); % Índice de error de 3s a 6s
+disp(JIAE1)
 
 %% Modelo PDMTM Alfaro (123c)
 % Modelo 
@@ -91,4 +92,63 @@ grid on
 % Índice integral de error absoluto
 e2 = abs(y.'-(yz2+yi));
 JIAE2 = trapz(tz(2001:6001), e2(2001:6001)); % Índice de error de 3s a 6s
+disp(JIAE2)
 
+%% Modelo System Toolbox 
+
+% Función de transferencia
+P3 = 1.1453/(0.54856*s+1);
+tz = (0:0.001:10);
+
+% Se interpola la respuesta real
+y = interp1(t, yr, tz);
+
+% Se grafica la respuesta real con el modelo del Toolbox
+figure(5)
+entrada = heaviside(tz-3)*(uf-ui)-heaviside(tz-6)*(uf-ui)+heaviside(tz-9)*(uf-ui); 
+[yz3, tz] = lsim(P3, entrada, tz);
+
+plot(tz, y, 'b', tz, yz3+yi, 'r--', 'linewidth', 2)
+
+% Índice integral de error absoluto IAE
+e = abs(y.'-(yz3+yi));
+JIAE3 = trapz(tz3(3001:6001), e(3001:6001)); % Índice de error de 3s a 6s
+disp(JIAE3)
+
+%% Gráficas de los modelos juntas con base a los métodos de identificación
+
+figure(6)
+
+plot(t, u, 'm--', 'linewidth', 1.5)
+hold on
+entrada = heaviside(tz-3)*(uf-ui).*heaviside(6-tz) + heaviside(tz-9)*(uf-ui);
+[yz, tz] = lsim(P, entrada, tz);
+plot(tz, yz+yi, 'linewidth', 1.5)
+[yz2, tz] = lsim(P2, entrada, tz);
+plot(tz, yz2+yi, 'linewidth', 1.5)
+entrada = heaviside(tz-3)*(uf-ui)-heaviside(tz-6)*(uf-ui)+heaviside(tz-9)*(uf-ui); 
+[yz3, tz] = lsim(P3, entrada, tz);
+plot(tz, yz3+yi, 'linewidth', 1.5)
+grid on
+title("Resuesta de los modelos ante la señal deseada")
+xlabel("Tiempo (s)")
+ylabel("Revoluciones por minuto (RPM)")
+legend("Valor de referencia", "Alfaro 123c POMTM", "Alfaro 123c PDMTM","Toolbox Matlab")
+
+%%  Método de LGR, controlador PI para POMTM, Respuesta del controlador a lazo cerrado
+% Kp=0.86058, K=1.1619, T=0.1847
+s=tf('s');
+L_LGR = (0.86058*1.1619)/(0.1847*s);
+Myr_LGR = L_LGR/(1+L_LGR);
+
+% Gráfica
+figure(7)
+hold on
+plot(t, u, 'm--', 'linewidth', 1.5)
+[yz4, ~] = lsim(Myr_LGR, entrada, tz);
+plot(tz, yz4+yi, 'b', 'linewidth', 2)
+grid on
+title("Respuesta del controlador con base al método del LGR")
+xlabel("Tiempo (s)")
+ylabel("Revoluciones por minuto (RPM)")
+legend("Valor de referencia", "Señal del LGR")
