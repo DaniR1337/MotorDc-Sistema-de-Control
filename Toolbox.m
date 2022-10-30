@@ -8,7 +8,7 @@ t=datos(:,1);
 u=datos(:,2);
 y=datos(:,3);
 figure(1)
-%plot(t,u,t,y)
+plot(t,u,t,y)
 u_1=u-85;
 y_1=y-107.2;
 figure(2)
