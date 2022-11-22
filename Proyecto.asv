@@ -116,18 +116,19 @@ JIAE3 = trapz(tz3(3001:6001), e(3001:6001)); % Índice de error de 3s a 6s
 disp(JIAE3)
 
 %% Gráficas de los modelos juntas con base a los métodos de identificación
+
 figure(6)
 
 plot(t, u, 'm--', 'linewidth', 1.5)
 hold on
 entrada = heaviside(tz-3)*(uf-ui).*heaviside(6-tz) + heaviside(tz-9)*(uf-ui)+heaviside(tz-20)*(uf-ui);
 [yz, tz] = lsim(P, entrada, tz);
-plot(tz, yz+85, 'linewidth', 1.5)
+plot(tz, yz+yi, 'linewidth', 1.5)
 [yz2, tz] = lsim(P2, entrada, tz);
-plot(tz, yz2+85, 'linewidth', 1.5)
+plot(tz, yz2+yi, 'linewidth', 1.5)
 entrada = heaviside(tz-3)*(uf-ui)-heaviside(tz-6)*(uf-ui)+heaviside(tz-9)*(uf-ui); 
 [yz3, tz] = lsim(P3, entrada, tz);
-plot(tz, yz3+85, 'linewidth', 1.5)
+plot(tz, yz3+yi, 'linewidth', 1.5)
 grid on
 title("Respuesta de los modelos ante la señal deseada")
 xlabel("Tiempo (s)")
@@ -144,7 +145,7 @@ Myr_LGR = L_LGR/(1+L_LGR);
 figure(7)
 hold on
 [yz4, ~] = lsim(Myr_LGR, entrada, tz);
-plot(t, u, 'm--', 'linewidth', 1.5);
+plot(t, u+21.836, 'm--', 'linewidth', 1.5);
 plot(tz, yz4+85, 'b', 'linewidth', 2);
 grid on
 title("Respuesta a lazo cerrado con base al método del LGR")

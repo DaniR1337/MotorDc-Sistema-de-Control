@@ -17,15 +17,15 @@ uf = mean(u(386:546));
 s = tf('s'); 
 
 % Función de transferencia
-P = 1.1453/(0.54856*s+1);
-tz = (0:0.001:6);
+P = 1.1444/(0.16619*s+1);
+tz = (0:0.001:9);
 
 % Se interpola la respuesta real
 y = interp1(t, yr, tz);
 
 % Se grafica la respuesta real con el modelo del Toolbox
 figure(1)
-entrada = heaviside(tz-3)*(uf-ui); 
+entrada = heaviside(tz-3)*(uf-ui)-heaviside(tz-6)*(uf-ui); 
 [yz, tz] = lsim(P, entrada, tz);
 
 plot(tz, y, 'b', tz, yz+yi, 'r--', 'linewidth', 2)
