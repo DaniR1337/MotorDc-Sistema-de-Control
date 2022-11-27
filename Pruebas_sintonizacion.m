@@ -31,4 +31,5 @@ Kc = 0.28*Tm/(Km*(tau_m+0.1*Tm));
 Tc = 0.53*Tm;
 Cc = Kc*(1+1/(Tc*s));
 P=1.162/(0.1847*s+1);
-sisotool(Cc)
+L_K = Cc * P;
+sisotool(L_K)
