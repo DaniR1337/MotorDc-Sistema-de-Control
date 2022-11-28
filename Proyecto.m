@@ -118,20 +118,20 @@ disp(JIAE3)
 %% Gráficas de los modelos juntas con base a los métodos de identificación
 figure(6)
 
-plot(t, (u-85)*100/30, 'm--', 'linewidth', 1.5)
+plot(t, (u)*100/255, 'm--', 'linewidth', 1.5)
 hold on
 entrada = heaviside(tz-3)*(uf-ui).*heaviside(6-tz) + heaviside(tz-9)*(uf-ui)+heaviside(tz-20)*(uf-ui);
 [yz, tz] = lsim(P, entrada, tz);
-plot(tz, yz*100/30, 'linewidth', 1.5)
+plot(tz, (yz+85)*100/255, 'linewidth', 1.5)
 [yz2, tz] = lsim(P2, entrada, tz);
-plot(tz, yz2*100/30, 'linewidth', 1.5)
+plot(tz, (yz2+85)*100/255, 'linewidth', 1.5)
 entrada = heaviside(tz-3)*(uf-ui)-heaviside(tz-6)*(uf-ui)+heaviside(tz-9)*(uf-ui); 
 [yz3, tz] = lsim(P3, entrada, tz);
-plot(tz, yz3*100/30, 'linewidth', 1.5)
+plot(tz, (yz3+85)*100/255, 'linewidth', 1.5)
 grid on
 title("Respuesta de los modelos ante la señal deseada")
 xlabel("Tiempo (s)")
-ylabel("Revoluciones por minuto (RPM)")
+ylabel("Señal Realimentada (%)")
 legend("r(t): Valor de referencia", "Alfaro 123c POMTM", "Alfaro 123c PDMTM","Toolbox Matlab")
 
 %% Gráficas de los controladores para los tres métodos de sintonización
@@ -204,19 +204,19 @@ legend("r(t)", "y(t)")
 % --Gráfica de los tres métodos de sintonización, Respuesta a lazo
 % cerrado--
 figure(10)
-plot(t, (u-85)*100/30, 'k--', 'linewidth', 1.5)
+plot(t, (u)*100/255, 'k--', 'linewidth', 1.5)
 hold on
 entrada = heaviside(tz-3)*(uf-ui).*heaviside(6-tz) + heaviside(tz-9)*(uf-ui)+heaviside(tz-20)*(uf-ui);
 [yz4, ~] = lsim(Myr_LGR, entrada, tz);
-plot(tz, yz4*100/30, 'm','linewidth', 2)
+plot(tz, (yz4+85)*100/255, 'm','linewidth', 2)
 [yz5, ~] = lsim(Myr_SA, entrada, tz);
-plot(tz, yz5*100/30, 'b--','linewidth', 2)
+plot(tz, (yz5+85)*100/255, 'b--','linewidth', 2)
 [yz6, ~] = lsim(Myr_K, entrada, tz);
-plot(tz, yz6*100/30, 'g','linewidth', 2)
+plot(tz, (yz6+85)*100/255, 'g','linewidth', 2)
 grid on
 title("Respuesta a lazo cerrado de los métodos de sintonización")
 xlabel("Tiempo (s)")
-ylabel("Revoluciones por minuto (%)")
+ylabel("Señal Realimentada (%)")
 legend("r(t)","y(t) LGR", "y(t) SA", "y(t) Klein")
 
 
